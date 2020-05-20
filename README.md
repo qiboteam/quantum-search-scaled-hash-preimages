@@ -3,6 +3,8 @@
 
 This repository contains examples for the Grover search implementations of scaled down versions of Chacha based Sponge hash functions and Blake2 construction.
 
+The OpenQASM convertion has been possible thanks to the Qibo quantum simulation language.
+
 ## Toy Sponge Hash Grover circuit
 
 Circuit that implements a the full Grover's search algorithm for a hash value of: 10100011 (163) This particular value has 2 preimages, and the algorithm is constructed to have the exact number of Grover steps in order to find solution with unit probability.
