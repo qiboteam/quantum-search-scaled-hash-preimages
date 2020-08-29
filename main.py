@@ -92,6 +92,5 @@ if __name__ == "__main__":
     parser.add_argument("--bits", default=7, type=int)
     parser.add_argument("--collisions", default=None, type=int)
     parser.add_argument("--noise", action="store_true")
-    parser.add_argument("--entropy", action="store_true")
     args = vars(parser.parse_args())
     main(args.get('hash'), args.get('collisions'), args.get('bits'), args.get('noise'))
