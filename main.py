@@ -95,4 +95,3 @@ if __name__ == "__main__":
     parser.add_argument("--entropy", action="store_true")
     args = vars(parser.parse_args())
     main(args.get('hash'), args.get('collisions'), args.get('bits'), args.get('noise'))
-    

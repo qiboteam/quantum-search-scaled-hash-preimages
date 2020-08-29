@@ -29,7 +29,7 @@ def error_gate(qubit, err, err_type='bitphaseflip'):
             if np.random.random() <= err:
                 yield gates.Y(qubit)
 
-            
+
 def n_mCNOT(controls, target, work, err):
     """Decomposition of a multi-controlled NOT gate with m qubits of work space.
     Args:
@@ -79,7 +79,7 @@ def n_mCNOT(controls, target, work, err):
         yield error_gate(work[-1-i], err)
         yield error_gate(work[-1-i+1], err)
 
-        
+
 def n_2CNOT(controls, target, work, err):
     """Decomposition up to Toffoli gates of a multi-controlled NOT gate with one work qubit.
     Args:
@@ -97,7 +97,7 @@ def n_2CNOT(controls, target, work, err):
     yield n_mCNOT((controls+[work])[m1:m1+m2], target, controls[0:m1], err)
     yield n_mCNOT(controls[0:m1], work, controls[m1:len(controls)]+[target], err)
     yield n_mCNOT((controls+[work])[m1:m1+m2], target, controls[0:m1], err)
-        
+
 
 def adder_mod2n(a, b, x, err):
     """Quantum circuit for the adder modulo 2^n operation.
@@ -193,8 +193,8 @@ def adder_mod2n(a, b, x, err):
         yield gates.CNOT(a[i], b[i])
         yield error_gate(a[i], err)
         yield error_gate(b[i], err)
-        
-        
+
+
 def r_adder_mod2n(a, b, x, err):
     """Reversed quantum circuit for the adder modulo 2^n operation.
     Args:
@@ -289,7 +289,7 @@ def r_adder_mod2n(a, b, x, err):
         yield gates.CNOT(a[i], b[i])
         yield error_gate(a[i], err)
         yield error_gate(b[i], err)
-        
+
 
 def qr(a, b, x, rot, err):
     """Circuit for the quantum quarter round for the toy Chacha permutation.
@@ -313,7 +313,7 @@ def qr(a, b, x, rot, err):
         for i in range(rot[r]):
             b = b[1:] + [b[0]]
 
-            
+
 def r_qr(a, b, x, rot, err):
     """Reverse circuit for the quantum quarter round for the toy Chacha permutation.
     Args:
@@ -363,7 +363,7 @@ def diffuser(q, work, err):
         yield error_gate(q[i], err)
         yield gates.H(q[i])
         yield error_gate(q[i], err)
-        
+
 
 def start_grover(q, ancilla, err):
     """Generator that performs the starting step in Grover's search algorithm.
@@ -383,8 +383,8 @@ def start_grover(q, ancilla, err):
     for i in range(n):
         yield gates.H(q[i])
         yield error_gate(q[i], err)
-        
-        
+
+
 def create_qc(q):
     """Create the quantum circuit necessary to solve the problem. 
     Args:
@@ -492,8 +492,8 @@ def QhaQha(q, A, B, C, D, x, rot, err):
         yield qr(B, C, x, rot, err)
         for i in range(sum(rot)):
             C = C[1:] + [C[0]]
-            
-            
+
+
 def r_QhaQha(q, A, B, C, D, x, rot, err):
     """Reversed circuit that performs the quantum Chacha permutation for the toy model.
     Args:
@@ -522,8 +522,8 @@ def r_QhaQha(q, A, B, C, D, x, rot, err):
         yield r_qr(A, C, x, rot, err)
         for i in range(sum(rot)):
             C = [C[-1]] + C[:-1]   
-            
-            
+
+
 def grover_step(q, c, circuit, A, B, C, D, x, ancilla, h, rot, err):
     """Add a full grover step to solve a Sponge Hash construction to a quantum circuit.
     Args:
@@ -669,7 +669,7 @@ def grover(q, constant_1, constant_2, rot, h, grover_it, nshots=100, err=0):
     c.append(c2)
     c.append(c3)
     c.append(c4)
-    circuit.add(start_grover(A+B, ancilla))
+    circuit.add(start_grover(A+B, ancilla, err))
     for i in range(grover_it):
         circuit = grover_step(q, c, circuit, A, B, C, D, x, ancilla, h, rot, err)
     circuit.add(gates.M(*(A+B), register_name='preimages'))

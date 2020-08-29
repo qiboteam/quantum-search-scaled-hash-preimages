@@ -2,7 +2,7 @@ from qibo.models import Circuit
 from qibo import gates
 import numpy as np
 
-            
+
 def n_mCNOT(controls, target, work):
     """Decomposition of a multi-controlled NOT gate with m qubits of work space.
     Args:
@@ -27,7 +27,7 @@ def n_mCNOT(controls, target, work):
     for i in reversed(range(1,len(controls)-2)):
         yield gates.TOFFOLI(controls[-1-i], work[-1-i], work[-1-i+1])
 
-        
+
 def n_2CNOT(controls, target, work):
     """Decomposition up to Toffoli gates of a multi-controlled NOT gate with one work qubit.
     Args:
@@ -44,7 +44,7 @@ def n_2CNOT(controls, target, work):
     yield n_mCNOT((controls+[work])[m1:m1+m2], target, controls[0:m1])
     yield n_mCNOT(controls[0:m1], work, controls[m1:len(controls)]+[target])
     yield n_mCNOT((controls+[work])[m1:m1+m2], target, controls[0:m1])
-        
+
 
 def adder_mod2n(a, b, x):
     """Quantum circuit for the adder modulo 2^n operation.
@@ -87,8 +87,8 @@ def adder_mod2n(a, b, x):
     yield gates.CNOT(a[n-2], x)
     for i in range(n-1, -1, -1):
         yield gates.CNOT(a[i], b[i])
-        
-        
+
+
 def r_adder_mod2n(a, b, x):
     """Reversed quantum circuit for the adder modulo 2^n operation.
     Args:
@@ -130,7 +130,7 @@ def r_adder_mod2n(a, b, x):
     yield gates.CNOT(a[n-2], x)
     for i in reversed(range(n-2, -1, -1)):
         yield gates.CNOT(a[i], b[i])
-        
+
 
 def g(a, b, x, y, anc, rot):
     """Basic component for the BLAKE construction.
@@ -144,7 +144,6 @@ def g(a, b, x, y, anc, rot):
     
     Returns:
         generator of the quantum gates requires to apply the circuit.
-    
     """
     n = int(len(a))
     yield adder_mod2n(b, a, anc)
@@ -173,7 +172,6 @@ def r_g(a, b, x, y, anc, rot):
     
     Returns:
         generator of the quantum gates requires to apply the circuit.
-    
     """
     n = int(len(a))
     for i in range(rot[0]):
@@ -188,8 +186,8 @@ def r_g(a, b, x, y, anc, rot):
         yield gates.CNOT(a[i], b[i])
     yield r_adder_mod2n(x, a, anc)
     yield r_adder_mod2n(b, a, anc)
-    
-    
+
+
 def blake(v, d, x, rot, rho):
     """BLAKE contruction given a rho value. 
     Args:
@@ -223,7 +221,7 @@ def blake(v, d, x, rot, rho):
         for i in range(sum(rot)):
             v[2] = [v[2][-1]] + v[2][:-1]
 
-            
+
 def r_blake(v, d, x, rot, rho):
     """Reversed BLAKE contruction given a rho value. 
     Args:
@@ -256,8 +254,8 @@ def r_blake(v, d, x, rot, rho):
         yield r_g(v[0], v[2], d[s[0]], d[s[1]], x, rot)
         for i in range(sum(rot)):
             v[2] = v[2][1:] + [v[2][0]]
-            
-                 
+
+
 def init(q, iv0, iv1, t, last=False):
     """Perform the first step of the algorithm classically.
     Args:
@@ -285,7 +283,7 @@ def init(q, iv0, iv1, t, last=False):
     v2 = "{0:0{bits}b}".format(v2, bits=q)
     v3 = "{0:0{bits}b}".format(v3, bits=q)
     return v0, v1, v2, v3
-        
+
 
 def diffuser(q, work):
     """Generator that performs the inversion over the average step in Grover's search algorithm.
@@ -306,7 +304,7 @@ def diffuser(q, work):
     for i in range(n):
         yield gates.X(q[i])
         yield gates.H(q[i])
-        
+
 
 def create_qc(q):
     """Create the quantum circuit necessary to solve the problem. 

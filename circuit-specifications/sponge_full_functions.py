@@ -2,7 +2,7 @@ from qibo.models import Circuit
 from qibo import gates
 import numpy as np
 
-            
+
 def n_mCNOT(controls, target, work):
     """Decomposition of a multi-controlled NOT gate with m qubits of work space.
     Args:
@@ -27,7 +27,7 @@ def n_mCNOT(controls, target, work):
     for i in reversed(range(1,len(controls)-2)):
         yield gates.TOFFOLI(controls[-1-i], work[-1-i], work[-1-i+1])
 
-        
+
 def n_2CNOT(controls, target, work):
     """Decomposition up to Toffoli gates of a multi-controlled NOT gate with one work qubit.
     Args:
@@ -44,7 +44,7 @@ def n_2CNOT(controls, target, work):
     yield n_mCNOT((controls+[work])[m1:m1+m2], target, controls[0:m1])
     yield n_mCNOT(controls[0:m1], work, controls[m1:len(controls)]+[target])
     yield n_mCNOT((controls+[work])[m1:m1+m2], target, controls[0:m1])
-        
+
 
 def adder_mod2n(a, b, x):
     """Quantum circuit for the adder modulo 2^n operation.
@@ -87,8 +87,8 @@ def adder_mod2n(a, b, x):
     yield gates.CNOT(a[n-2], x)
     for i in range(n-1, -1, -1):
         yield gates.CNOT(a[i], b[i])
-        
-        
+
+
 def r_adder_mod2n(a, b, x):
     """Reversed quantum circuit for the adder modulo 2^n operation.
     Args:
@@ -130,7 +130,7 @@ def r_adder_mod2n(a, b, x):
     yield gates.CNOT(a[n-2], x)
     for i in reversed(range(n-2, -1, -1)):
         yield gates.CNOT(a[i], b[i])
-        
+
 
 def qr(a, b, c, d, x, rot):
     """Circuit for the quantum quarter round for the toy Chacha permutation.
@@ -167,7 +167,7 @@ def qr(a, b, c, d, x, rot):
     for i in range(rot[3]):
         b = b[1:] + [b[0]]
 
-            
+
 def r_qr(a, b, c, d, x, rot):
     """Reverse circuit for the quantum quarter round for the toy Chacha permutation.
     Args:
@@ -223,7 +223,7 @@ def diffuser(q, work):
     for i in range(n):
         yield gates.X(q[i])
         yield gates.H(q[i])
-        
+
 
 def start_grover(q, ancilla):
     """Generator that performs the starting step in Grover's search algorithm.
@@ -239,8 +239,8 @@ def start_grover(q, ancilla):
     yield gates.H(ancilla)
     for i in range(n):
         yield gates.H(q[i])
-        
-        
+
+
 def create_qc(q):
     """Create the quantum circuit necessary to solve the problem. 
     Args:
@@ -435,8 +435,8 @@ def QhaQha(q, v, x, rot):
             v[14] = v[14][1:] + [v[14][0]]
         for i in range(rot[1]+rot[3]):
             v[4] = v[4][1:] + [v[4][0]]
-                 
-            
+
+
 def r_QhaQha(q, v, x, rot):
     """Reversed circuit that performs the quantum Chacha permutation for the toy model.
     Args:
@@ -490,8 +490,8 @@ def r_QhaQha(q, v, x, rot):
             v[12] = [v[12][-1]] + v[12][:-1]
         for i in range(rot[1]+rot[3]):
             v[4] = [v[4][-1]] + v[4][:-1]
-            
-            
+
+
 def grover_step(q, c, circuit, v, x, ancilla, h, rot):
     """Add a full grover step to solve a Sponge Hash construction to a quantum circuit.
     Args:
