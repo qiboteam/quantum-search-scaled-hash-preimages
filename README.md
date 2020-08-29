@@ -1,19 +1,33 @@
 [![DOI](https://zenodo.org/badge/265590690.svg)](https://zenodo.org/badge/latestdoi/265590690)
 # Quantum Search for Scaled Hash Function Preimages
-### OpenQASM 2.0 files
 
-This repository contains examples for the Grover search implementations of scaled down versions of Chacha based Sponge hash functions and Blake2 construction.
+This repository contains code to reproduce the result presented in the paper: Quantum Search for Scaled Hash Function Preimages.
 
-The OpenQASM convertion has been possible thanks to the Qibo quantum simulation language.
+The scripts presented use [Qibo](https://github.com/Quantum-TII/qibo), a Python library for classical simulation of quantum circuits. In order to properly run the scripts, please start by installing Qibo to your Python enviroment using:
 
-## Toy Sponge Hash Grover circuit
+```python
+pip install qibo
+```
 
-Circuit that implements the full Grover's search algorithm for a hash value of: 10100011 (163). This particular value has 2 preimages, and the algorithm is constructed to have the exact number of Grover steps in order to find solution with unit probability. 
+Run the `main.py` file to find a preimage for hash value `10100011` without knowing the total amount of preimages. This code is based on the Toy Sponge Hash implementation described in the paper.
 
-The circuit code is in [qasm-sponge-grover-circuit.qasm](https://github.com/Quantum-TII/quantum-search-scaled-hash-preimages/blob/layout/qasm-sponge-grover-circuit.qasm).
+The following arguments can alter the program output:
 
-## Toy Blake2 Hash Grover step
+- `--hash` (int) hash value whose preimages will be found. Has to be represented by less than 8 bits, and is `163` by default.
+- `--bits` (int) minimum amount of bits to use when defining the hash value. Default value is 7.
+- `--collisions` (int) if known, the number of preimages of target hash, to perform direct Grover over the iterative method. Hash `163` has 2 collisions, but is set to `None` by default.
+- `--noise` perform a noisy simulation with Pauli errors after every gate and return a graph of success probability for increasing error.
 
-Circuit that implements the initialization and a Grover step of the scaled down Blake2 Hash construction. This algorithm requires more qubits than normally simulable by classical means. This circuit is an illustration of what a single Grover step for this construction would look like. Hash value to find preimages to: 10100011 (163). 
+The program returns:
 
-The circuit code is in [qasm-blake2-grover-step.qasm](https://github.com/Quantum-TII/quantum-search-scaled-hash-preimages/blob/layout/qasm-blake2-grover-step.qasm).
+- The target hash value used in the program.
+- If as successful solution has been found.
+  - **If number of collisions is not given:** a preimage of the function.
+  - **If number of collisions is given:** all preimages of the function.
+-  Total Grover iterations taken to find a primage.
+
+If `--noise` was given:
+
+- `grover_bitphase.png` image detailing the success probability of runing the full, or half Grover algorithm under increasing amounts of noise.
+
+Circuit specifications and gate counts for a single Grover step for both toy models and real implementations of the Sponge Hash construction as well as the Blake2 hash construction are found in the **circuit-specifications** folder.
