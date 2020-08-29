@@ -3,7 +3,9 @@
 
 This repository contains code to reproduce the result presented in the paper: Quantum Search for Scaled Hash Function Preimages.
 
-The scripts presented use [Qibo](https://github.com/Quantum-TII/qibo), a Python library for classical simulation of quantum circuits. In order to properly run the scripts, please start by installing Qibo to your Python enviroment with `pip install qibo`.
+The scripts presented use [Qibo](https://github.com/Quantum-TII/qibo), a Python library for classical simulation of quantum circuits. In order to properly run the scripts, please start by installing Qibo to your Python enviroment using:
+
+`pip install qibo`
 
 Run the `main.py` file to find a preimage for hash value `10100011` without knowing the total amount of preimages. This code is based on the Toy Sponge Hash implementation described in the paper.
 
