@@ -19,7 +19,7 @@ def main():
     iv.append(iv0)
     iv.append(iv1)
     rho = 12
-    hash_value = 163
+    h_value = 163
     h = "{0:0{bits}b}".format(h_value, bits=8)
     grover_it = int(1)
     circuit = functions.grover_single(q, iv, rot, rho, h, t, grover_it)
