@@ -24,3 +24,7 @@ jobs:
       run: |
         python main.py
         python main.py --collisions 2
+        python circuit-specifications/sponge_toy_main.py
+        python circuit-specifications/sponge_full_main.py
+        python circuit-specifications/blake_toy_main.py
+        python circuit-specifications/blake_full_main.py
