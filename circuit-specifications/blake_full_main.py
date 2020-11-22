@@ -34,7 +34,7 @@ def main():
     print('QASM file containing all gates created\n')
     print('The circuit specifications are:\n')
     print('-'*30)
-    print(circuit.summary)
+    print(circuit.summary())
     print('-'*30)
 
 

@@ -261,9 +261,9 @@ def create_qc(q):
     for i in range(16):
         v.append([j+k*q for j in range(q)])
         k += 1    
-    x = k*q
-    ancilla = k*q+1
-    qubits = k*q+2
+    x = [k*q, k*q+1, k*q+2, k*q+3]
+    ancilla = k*q+4
+    qubits = k*q+5
     circuit = Circuit(qubits)
     return v, x, ancilla, circuit, qubits
 
@@ -394,43 +394,43 @@ def QhaQha(q, v, x, rot):
         generator that applies the ChaCha permutation as a quantum circuit
     """
     for i in range(10):
-        yield qr(v[0], v[4], v[8], v[12], x, rot)
+        yield qr(v[0], v[4], v[8], v[12], x[0], rot)
         for i in range(rot[0]+rot[2]):
             v[12] = v[12][1:] + [v[12][0]]
         for i in range(rot[1]+rot[3]):
             v[4] = v[4][1:] + [v[4][0]]
-        yield qr(v[1], v[5], v[9], v[13], x, rot)
+        yield qr(v[1], v[5], v[9], v[13], x[1], rot)
         for i in range(rot[0]+rot[2]):
             v[13] = v[13][1:] + [v[13][0]]
         for i in range(rot[1]+rot[3]):
             v[5] = v[5][1:] + [v[5][0]]
-        yield qr(v[2], v[6], v[10], v[14], x, rot)
+        yield qr(v[2], v[6], v[10], v[14], x[2], rot)
         for i in range(rot[0]+rot[2]):
             v[14] = v[14][1:] + [v[14][0]]
         for i in range(rot[1]+rot[3]):
             v[6] = v[6][1:] + [v[6][0]]
-        yield qr(v[3], v[7], v[11], v[15], x, rot)
+        yield qr(v[3], v[7], v[11], v[15], x[3], rot)
         for i in range(rot[0]+rot[2]):
             v[15] = v[15][1:] + [v[15][0]]
         for i in range(rot[1]+rot[3]):
             v[7] = v[7][1:] + [v[7][0]]
                  
-        yield qr(v[0], v[5], v[10], v[15], x, rot)
+        yield qr(v[0], v[5], v[10], v[15], x[0], rot)
         for i in range(rot[0]+rot[2]):
             v[15] = v[15][1:] + [v[15][0]]
         for i in range(rot[1]+rot[3]):
             v[5] = v[5][1:] + [v[5][0]]
-        yield qr(v[1], v[6], v[11], v[12], x, rot)
+        yield qr(v[1], v[6], v[11], v[12], x[1], rot)
         for i in range(rot[0]+rot[2]):
             v[12] = v[12][1:] + [v[12][0]]
         for i in range(rot[1]+rot[3]):
             v[6] = v[6][1:] + [v[6][0]]
-        yield qr(v[2], v[7], v[8], v[13], x, rot)
+        yield qr(v[2], v[7], v[8], v[13], x[2], rot)
         for i in range(rot[0]+rot[2]):
             v[13] = v[13][1:] + [v[13][0]]
         for i in range(rot[1]+rot[3]):
             v[7] = v[7][1:] + [v[7][0]]
-        yield qr(v[3], v[4], v[9], v[14], x, rot)
+        yield qr(v[3], v[4], v[9], v[14], x[3], rot)
         for i in range(rot[0]+rot[2]):
             v[14] = v[14][1:] + [v[14][0]]
         for i in range(rot[1]+rot[3]):
@@ -449,43 +449,43 @@ def r_QhaQha(q, v, x, rot):
         generator that applies the reverse ChaCha permutation as a quantum circuit
     """
     for i in range(10):
-        yield r_qr(v[3], v[4], v[9], v[14], x, rot)
+        yield r_qr(v[3], v[4], v[9], v[14], x[0], rot)
         for i in range(rot[0]+rot[2]):
             v[14] = [v[14][-1]] + v[14][:-1]
         for i in range(rot[1]+rot[3]):
             v[4] = [v[4][-1]] + v[4][:-1]
-        yield r_qr(v[2], v[7], v[8], v[13], x, rot)
+        yield r_qr(v[2], v[7], v[8], v[13], x[1], rot)
         for i in range(rot[0]+rot[2]):
             v[13] = [v[13][-1]] + v[13][:-1]
         for i in range(rot[1]+rot[3]):
             v[7] = [v[7][-1]] + v[7][:-1]
-        yield r_qr(v[1], v[6], v[11], v[12], x, rot)
+        yield r_qr(v[1], v[6], v[11], v[12], x[2], rot)
         for i in range(rot[0]+rot[2]):
             v[12] = [v[12][-1]] + v[12][:-1]
         for i in range(rot[1]+rot[3]):
             v[6] = [v[6][-1]] + v[6][:-1]
-        yield r_qr(v[0], v[5], v[10], v[15], x, rot)
+        yield r_qr(v[0], v[5], v[10], v[15], x[3], rot)
         for i in range(rot[0]+rot[2]):
             v[15] = [v[15][-1]] + v[15][:-1]
         for i in range(rot[1]+rot[3]):
             v[5] = [v[5][-1]] + v[5][:-1]
         
-        yield r_qr(v[3], v[7], v[11], v[15], x, rot)
+        yield r_qr(v[3], v[7], v[11], v[15], x[0], rot)
         for i in range(rot[0]+rot[2]):
             v[15] = [v[15][-1]] + v[15][:-1]
         for i in range(rot[1]+rot[3]):
             v[7] = [v[7][-1]] + v[7][:-1]
-        yield r_qr(v[2], v[6], v[10], v[14], x, rot)
+        yield r_qr(v[2], v[6], v[10], v[14], x[1], rot)
         for i in range(rot[0]+rot[2]):
             v[14] = [v[14][-1]] + v[14][:-1]
         for i in range(rot[1]+rot[3]):
             v[6] = [v[6][-1]] + v[6][:-1]
-        yield r_qr(v[1], v[5], v[9], v[13], x, rot)
+        yield r_qr(v[1], v[5], v[9], v[13], x[2], rot)
         for i in range(rot[0]+rot[2]):
             v[13] = [v[13][-1]] + v[13][:-1]
         for i in range(rot[1]+rot[3]):
             v[5] = [v[5][-1]] + v[5][:-1]
-        yield r_qr(v[0], v[4], v[8], v[12], x, rot)
+        yield r_qr(v[0], v[4], v[8], v[12], x[3], rot)
         for i in range(rot[0]+rot[2]):
             v[12] = [v[12][-1]] + v[12][:-1]
         for i in range(rot[1]+rot[3]):
@@ -552,7 +552,7 @@ def grover_step(q, c, circuit, v, x, ancilla, h, rot):
     for i in range(n):
         if int(h[i]) != 1:
             circuit.add(gates.X(vh[i]))
-    circuit.add(n_2CNOT(vh[:n], ancilla, x))
+    circuit.add(n_2CNOT(vh[:n], ancilla, x[0]))
     for i in range(n):
         if int(h[i]) != 1:
             circuit.add(gates.X(vh[i]))
@@ -594,7 +594,7 @@ def grover_step(q, c, circuit, v, x, ancilla, h, rot):
         for i in range(q):
             if int(c[j][i]) == 1:
                 circuit.add(gates.X(v[j][i]))
-    circuit.add(diffuser(vh, x))
+    circuit.add(diffuser(vh, x[0]))
     return circuit
 
 

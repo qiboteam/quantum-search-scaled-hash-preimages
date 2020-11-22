@@ -208,16 +208,16 @@ def blake(v, d, x, rot, rho):
     ]
     for i in range(0, 2*rho, 2):
         s = permutations[i//2 % len(permutations)]
-        yield g(v[0], v[2], d[s[0]], d[s[1]], x, rot)
+        yield g(v[0], v[2], d[s[0]], d[s[1]], x[0], rot)
         for i in range(sum(rot)):
             v[2] = [v[2][-1]] + v[2][:-1]
-        yield g(v[1], v[3], d[s[2]], d[s[3]], x, rot)
+        yield g(v[1], v[3], d[s[2]], d[s[3]], x[1], rot)
         for i in range(sum(rot)):
             v[3] = [v[3][-1]] + v[3][:-1]
-        yield g(v[0], v[3], d[s[0]], d[s[1]], x, rot)
+        yield g(v[0], v[3], d[s[0]], d[s[1]], x[0], rot)
         for i in range(sum(rot)):
             v[3] = [v[3][-1]] + v[3][:-1]
-        yield g(v[1], v[2], d[s[2]], d[s[3]], x, rot)
+        yield g(v[1], v[2], d[s[2]], d[s[3]], x[1], rot)
         for i in range(sum(rot)):
             v[2] = [v[2][-1]] + v[2][:-1]
 
@@ -242,16 +242,16 @@ def r_blake(v, d, x, rot, rho):
     ]
     for i in reversed(range(0, 2*rho, 2)):
         s = permutations[i//2 % len(permutations)]
-        yield r_g(v[1], v[2], d[s[2]], d[s[3]], x, rot)
+        yield r_g(v[1], v[2], d[s[2]], d[s[3]], x[0], rot)
         for i in range(sum(rot)):
             v[2] = v[2][1:] + [v[2][0]]
-        yield r_g(v[0], v[3], d[s[0]], d[s[1]], x, rot)
+        yield r_g(v[0], v[3], d[s[0]], d[s[1]], x[1], rot)
         for i in range(sum(rot)):
             v[3] = v[3][1:] + [v[3][0]]
-        yield r_g(v[1], v[3], d[s[2]], d[s[3]], x, rot)
+        yield r_g(v[1], v[3], d[s[2]], d[s[3]], x[0], rot)
         for i in range(sum(rot)):
             v[3] = v[3][1:] + [v[3][0]]
-        yield r_g(v[0], v[2], d[s[0]], d[s[1]], x, rot)
+        yield r_g(v[0], v[2], d[s[0]], d[s[1]], x[1], rot)
         for i in range(sum(rot)):
             v[2] = v[2][1:] + [v[2][0]]
 
@@ -333,9 +333,9 @@ def create_qc(q):
     d1 = [i+5*q for i in range(q)]
     d2 = [i+6*q for i in range(q)]
     d3 = [i+7*q for i in range(q)]
-    x = 8*q
-    ancilla = 8*q+1
-    qubits = 8*q+2
+    x = [8*q, 8*q+1]
+    ancilla = 8*q+2
+    qubits = 8*q+3
     circuit = Circuit(qubits)
     return v0, v1, v2, v3, d0, d1 ,d2, d3, x, ancilla, circuit, qubits
 
@@ -386,7 +386,7 @@ def grover_step(q, c, circuit, v, d, x, ancilla, h, rot, rho, iv):
     for i in range(n):
         if int(h[i]) != 1:
             circuit.add(gates.X((v[0]+v[1])[i]))
-    circuit.add(n_2CNOT((v[0]+v[1])[:n], ancilla, x))
+    circuit.add(n_2CNOT((v[0]+v[1])[:n], ancilla, x[0]))
     for i in range(n):
         if int(h[i]) != 1:
             circuit.add(gates.X((v[0]+v[1])[i]))
@@ -414,7 +414,7 @@ def grover_step(q, c, circuit, v, d, x, ancilla, h, rot, rho, iv):
             circuit.add(gates.X(v[2][i]))
         if int(c[3][i]) == 1:
             circuit.add(gates.X(v[3][i]))
-    circuit.add(diffuser(d[0]+d[1]+d[2]+d[3], x))
+    circuit.add(diffuser(d[0]+d[1]+d[2]+d[3], x[0]))
     return circuit
 
 

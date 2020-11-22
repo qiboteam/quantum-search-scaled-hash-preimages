@@ -212,9 +212,9 @@ def create_qc(q):
     B = [i+q for i in range(q)]
     C = [i+2*q for i in range(q)]
     D = [i+3*q for i in range(q)]
-    x = 4*q
-    ancilla = 4*q+1
-    qubits = 4*q+2
+    x = [4*q, 4*q+1]
+    ancilla = 4*q+2
+    qubits = 4*q+3
     circuit = Circuit(qubits)
     return A, B, C, D, x, ancilla, circuit, qubits
 
@@ -287,16 +287,16 @@ def QhaQha(q, A, B, C, D, x, rot):
         generator that applies the ChaCha permutation as a quantum circuit
     """
     for i in range(10):
-        yield qr(A, C, x, rot)
+        yield qr(A, C, x[0], rot)
         for i in range(sum(rot)):
             C = C[1:] + [C[0]]
-        yield qr(B, D, x, rot)
+        yield qr(B, D, x[1], rot)
         for i in range(sum(rot)):
             D = D[1:] + [D[0]]
-        yield qr(A, D, x, rot)
+        yield qr(A, D, x[0], rot)
         for i in range(sum(rot)):
             D = D[1:] + [D[0]]
-        yield qr(B, C, x, rot)
+        yield qr(B, C, x[1], rot)
         for i in range(sum(rot)):
             C = C[1:] + [C[0]]
 
@@ -316,16 +316,16 @@ def r_QhaQha(q, A, B, C, D, x, rot):
         generator that applies the reverse ChaCha permutation as a quantum circuit
     """
     for i in range(10):
-        yield r_qr(B, C, x, rot)
+        yield r_qr(B, C, x[0], rot)
         for i in range(sum(rot)):
             C = [C[-1]] + C[:-1]
-        yield r_qr(A, D, x, rot)
+        yield r_qr(A, D, x[1], rot)
         for i in range(sum(rot)):
             D = [D[-1]] + D[:-1]
-        yield r_qr(B, D, x, rot)
+        yield r_qr(B, D, x[0], rot)
         for i in range(sum(rot)):
             D = [D[-1]] + D[:-1]
-        yield r_qr(A, C, x, rot)
+        yield r_qr(A, C, x[1], rot)
         for i in range(sum(rot)):
             C = [C[-1]] + C[:-1]   
 
@@ -371,7 +371,7 @@ def grover_step(q, c, circuit, A, B, C, D, x, ancilla, h, rot):
     for i in range(n):
         if int(h[i]) != 1:
             circuit.add(gates.X((A+B)[i]))
-    circuit.add(n_2CNOT((A+B)[:n], ancilla, x))
+    circuit.add(n_2CNOT((A+B)[:n], ancilla, x[0]))
     for i in range(n):
         if int(h[i]) != 1:
             circuit.add(gates.X((A+B)[i]))
@@ -394,7 +394,7 @@ def grover_step(q, c, circuit, A, B, C, D, x, ancilla, h, rot):
             circuit.add(gates.X(C[i]))
         if int(c[3][i]) == 1:
             circuit.add(gates.X(D[i]))
-    circuit.add(diffuser(A+B, x))
+    circuit.add(diffuser(A+B, x[0]))
     return circuit
 
 
