@@ -238,43 +238,43 @@ def blake(v, d, x, rot, rho):
     ]
     for i in range(0, 2*rho, 2):
         s = permutations[i//2 % len(permutations)]
-        yield g(v[0], v[4], v[8], v[12], d[s[0]], d[s[1]], x, rot)
+        yield g(v[0], v[4], v[8], v[12], d[s[0]], d[s[1]], x[0], rot)
         for i in range(rot[0]+rot[2]):
             v[4] = [v[4][-1]] + v[4][:-1]
         for i in range(rot[3]+rot[1]):
             v[12] = [v[12][-1]] + v[12][:-1]
-        yield g(v[1], v[5], v[9], v[13], d[s[2]], d[s[3]], x, rot)
+        yield g(v[1], v[5], v[9], v[13], d[s[2]], d[s[3]], x[1], rot)
         for i in range(rot[0]+rot[2]):
             v[5] = [v[5][-1]] + v[5][:-1]
         for i in range(rot[3]+rot[1]):
             v[13] = [v[13][-1]] + v[13][:-1]
-        yield g(v[2], v[6], v[10], v[14], d[s[4]], d[s[5]], x, rot)
+        yield g(v[2], v[6], v[10], v[14], d[s[4]], d[s[5]], x[2], rot)
         for i in range(rot[0]+rot[2]):
             v[6] = [v[6][-1]] + v[6][:-1]
         for i in range(rot[3]+rot[1]):
             v[14] = [v[14][-1]] + v[14][:-1]
-        yield g(v[3], v[7], v[11], v[15], d[s[6]], d[s[7]], x, rot)
+        yield g(v[3], v[7], v[11], v[15], d[s[6]], d[s[7]], x[3], rot)
         for i in range(rot[0]+rot[2]):
             v[7] = [v[7][-1]] + v[7][:-1]
         for i in range(rot[3]+rot[1]):
             v[15] = [v[15][-1]] + v[15][:-1]
                    
-        yield g(v[0], v[5], v[10], v[15], d[s[8]], d[s[9]], x, rot)
+        yield g(v[0], v[5], v[10], v[15], d[s[8]], d[s[9]], x[0], rot)
         for i in range(rot[0]+rot[2]):
             v[5] = [v[5][-1]] + v[5][:-1]
         for i in range(rot[3]+rot[1]):
             v[15] = [v[15][-1]] + v[15][:-1]
-        yield g(v[1], v[6], v[11], v[12], d[s[10]], d[s[11]], x, rot)
+        yield g(v[1], v[6], v[11], v[12], d[s[10]], d[s[11]], x[1], rot)
         for i in range(rot[0]+rot[2]):
             v[6] = [v[6][-1]] + v[6][:-1]
         for i in range(rot[3]+rot[1]):
             v[12] = [v[12][-1]] + v[12][:-1]
-        yield g(v[2], v[7], v[8], v[13], d[s[12]], d[s[13]], x, rot)
+        yield g(v[2], v[7], v[8], v[13], d[s[12]], d[s[13]], x[2], rot)
         for i in range(rot[0]+rot[2]):
             v[7] = [v[7][-1]] + v[7][:-1]
         for i in range(rot[3]+rot[1]):
             v[13] = [v[13][-1]] + v[13][:-1]
-        yield g(v[3], v[4], v[9], v[14], d[s[14]], d[s[15]], x, rot)
+        yield g(v[3], v[4], v[9], v[14], d[s[14]], d[s[15]], x[3], rot)
         for i in range(rot[0]+rot[2]):
             v[4] = [v[4][-1]] + v[4][:-1]
         for i in range(rot[3]+rot[1]):
@@ -307,43 +307,43 @@ def r_blake(v, d, x, rot, rho):
     ]
     for i in reversed(range(0, 2*rho, 2)):
         s = permutations[i//2 % len(permutations)]
-        yield r_g(v[3], v[4], v[9], v[14], d[s[14]], d[s[15]], x, rot)
+        yield r_g(v[3], v[4], v[9], v[14], d[s[14]], d[s[15]], x[0], rot)
         for i in range(rot[0]+rot[2]):
             v[4] = v[4][1:] + [v[4][0]]
         for i in range(rot[1]+rot[3]):
             v[14] = v[14][1:] + [v[14][0]]
-        yield r_g(v[2], v[7], v[8], v[13], d[s[12]], d[s[13]], x, rot)
+        yield r_g(v[2], v[7], v[8], v[13], d[s[12]], d[s[13]], x[1], rot)
         for i in range(rot[0]+rot[2]):
             v[7] = v[7][1:] + [v[7][0]]
         for i in range(rot[1]+rot[3]):
             v[13] = v[13][1:] + [v[13][0]]
-        yield r_g(v[1], v[6], v[11], v[12], d[s[10]], d[s[11]], x, rot)
+        yield r_g(v[1], v[6], v[11], v[12], d[s[10]], d[s[11]], x[2], rot)
         for i in range(rot[0]+rot[2]):
             v[6] = v[6][1:] + [v[6][0]]
         for i in range(rot[1]+rot[3]):
             v[12] = v[12][1:] + [v[12][0]]
-        yield r_g(v[0], v[5], v[10], v[15], d[s[8]], d[s[9]], x, rot)
+        yield r_g(v[0], v[5], v[10], v[15], d[s[8]], d[s[9]], x[3], rot)
         for i in range(rot[0]+rot[2]):
             v[5] = v[5][1:] + [v[5][0]]
         for i in range(rot[1]+rot[3]):
             v[15] = v[15][1:] + [v[15][0]]
             
-        yield r_g(v[3], v[7], v[11], v[15], d[s[6]], d[s[7]], x, rot)
+        yield r_g(v[3], v[7], v[11], v[15], d[s[6]], d[s[7]], x[0], rot)
         for i in range(rot[0]+rot[2]):
             v[7] = v[7][1:] + [v[7][0]]
         for i in range(rot[1]+rot[3]):
             v[15] = v[15][1:] + [v[15][0]]
-        yield r_g(v[2], v[6], v[10], v[14], d[s[4]], d[s[5]], x, rot)
+        yield r_g(v[2], v[6], v[10], v[14], d[s[4]], d[s[5]], x[1], rot)
         for i in range(rot[0]+rot[2]):
             v[6] = v[6][1:] + [v[6][0]]
         for i in range(rot[1]+rot[3]):
             v[14] = v[14][1:] + [v[14][0]]
-        yield r_g(v[1], v[5], v[9], v[13], d[s[2]], d[s[3]], x, rot)
+        yield r_g(v[1], v[5], v[9], v[13], d[s[2]], d[s[3]], x[2], rot)
         for i in range(rot[0]+rot[2]):
             v[5] = v[5][1:] + [v[5][0]]
         for i in range(rot[1]+rot[3]):
             v[13] = v[13][1:] + [v[13][0]]
-        yield r_g(v[0], v[4], v[8], v[12], d[s[0]], d[s[1]], x, rot)
+        yield r_g(v[0], v[4], v[8], v[12], d[s[0]], d[s[1]], x[3], rot)
         for i in range(rot[0]+rot[2]):
             v[4] = v[4][1:] + [v[4][0]]
         for i in range(rot[1]+rot[3]):
@@ -413,9 +413,9 @@ def create_qc(q):
     for i in range(16):
         d.append([j+k*q for j in range(q)])
         k += 1        
-    x = k*q
-    ancilla = k*q+1
-    qubits = k*q+2
+    x = [k*q, k*q+1, k*q+2, k*q+3]
+    ancilla = k*q+4
+    qubits = k*q+5
     circuit = Circuit(qubits)
     return v, d, x, ancilla, circuit, qubits
 
@@ -493,7 +493,7 @@ def grover_step(q, c, circuit, v, d, x, ancilla, h, rot, rho, iv):
     for i in range(n):
         if int(h[i]) != 1:
             circuit.add(gates.X(vv1[i]))
-    circuit.add(n_2CNOT(vv1[:n], ancilla, x))
+    circuit.add(n_2CNOT(vv1[:n], ancilla, x[0]))
     for i in range(n):
         if int(h[i]) != 1:
             circuit.add(gates.X(vv1[i]))
@@ -543,7 +543,7 @@ def grover_step(q, c, circuit, v, d, x, ancilla, h, rot, rho, iv):
     dd = []
     for i in range(16):
         dd += d[i]
-    circuit.add(diffuser(dd, x))
+    circuit.add(diffuser(dd, x[0]))
     return circuit
 
 
